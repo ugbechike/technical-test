@@ -1,6 +1,7 @@
 import '../styles/globals.css'
+import * as React from "react";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: any) {
   return <Component {...pageProps} />
 }
 
