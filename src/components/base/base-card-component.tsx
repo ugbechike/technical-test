@@ -51,7 +51,7 @@ export const BaseCardComponent = (props: BaseCardComponent) => {
     endDate,
   } = AuctionInfo;
 
-  let timeLeft = endDate;
+  let timeLeft = endDate || 77438143; // todo a temp solution to avoid undefined or NAN data..
   //@ts-ignore
   const [timerFinished, setTimerFinish] = React.useState(false);
   const router = useRouter();
