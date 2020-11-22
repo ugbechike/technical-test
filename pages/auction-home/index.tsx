@@ -16,6 +16,8 @@ import { FilterNav } from "../../src/components/filter-components/filter-nav";
 import { FilterContents } from "../../src/components/filter-components/filter-contents";
 import { listItems1, listItems2 } from "../../utils/helper/dummy-data";
 import { FilterLayout } from "../../src/components/layout/filter-layout";
+import { BaseText } from "../../src/components/base/base-text";
+import { trans } from "../../utils/trans";
 
 export const ThemeContext: Context<any> = React.createContext({});
 
@@ -31,16 +33,12 @@ export default function Home(props: any) {
   const { size, data } = pagination || {};
   const { paginatedUpdatedData } = updatedPaginatedData;
   const { query } = useRouter();
-  const updatedCarData: any =
-    updatedData?.Cars?.length !== undefined ? updatedData : itemData;
-  const lastTicks =
-    updatedData?.Cars?.length !== undefined
-      ? updatedData?.Ticks
-      : itemData?.Ticks;
+  const updatedCarData: any = updatedData?.Cars?.length !== undefined ? updatedData : itemData;
+  const lastTicks = updatedData?.Cars?.length !== undefined ? updatedData?.Ticks : itemData?.Ticks;
 
   const currentPage = Number(query.page) || 0;
 
-  const autoRefreshDelay = updatedCarData?.RefreshInterval * 1000;
+  const autoRefreshDelay = (updatedCarData.RefreshInterval) * 1000 || 60000;
 
   const onRefresh = async () => {
     await setOpt({ ticks: lastTicks });
@@ -94,6 +92,7 @@ export default function Home(props: any) {
           currentPage={currentPage}
         >
           <Container>
+            <BaseText color={"black"}>{trans("auction_title")}</BaseText>
             <ThemeContext.Provider value={content}>
               <CarsAuctionComponent
                 size={size}
@@ -111,6 +110,7 @@ export default function Home(props: any) {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { locale } = ctx;
+
   const dir = path.join(process.cwd(), "public", "static");
 
   const filePath = `${dir}/${locale}.json`;
